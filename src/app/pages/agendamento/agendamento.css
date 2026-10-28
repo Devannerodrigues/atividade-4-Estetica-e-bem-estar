@@ -1,0 +1,70 @@
+
+.agendamento-container {
+  max-width: 650px;
+  margin: 35px auto;
+  padding: 20px;
+}
+
+.agendamento-container h1 {
+  color: #502d79;
+}
+
+.agendamento-card {
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e8e0ef;
+  border-radius: 12px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.botao-principal {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #502d79;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mensagem-erro {
+  color: #b42318;
+}
+
+.mensagem-sucesso {
+  padding: 12px;
+  border-radius: 6px;
+  background: #e5f5e9;
+  color: #216b35;
+}
+
+.informacao-pagamento {
+  margin: 20px 0;
+  padding: 12px;
+  background: #f8f8f8;
+  border-radius: 6px;
+}
+
+.link-servicos {
+  display: block;
+  margin-top: 18px;
+  text-align: center;
+  color: #502d79;
+}

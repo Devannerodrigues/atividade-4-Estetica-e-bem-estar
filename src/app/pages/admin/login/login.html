@@ -1,0 +1,42 @@
+
+<div class="login-container">
+  <div class="login-card">
+    <h1>Estética Bem-Estar</h1>
+    <h2>Área administrativa</h2>
+    <p>Entre para gerenciar seus produtos e serviços.</p>
+
+    <form (ngSubmit)="entrar()" #formLogin="ngForm">
+      <div class="campo">
+        <label for="email">E-mail</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="Digite seu e-mail"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input
+          id="senha"
+          type="password"
+          name="senha"
+          [(ngModel)]="senha"
+          placeholder="Digite sua senha"
+          required
+        />
+      </div>
+
+      <p class="mensagem-erro" *ngIf="erro">
+        {{ erro }}
+      </p>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <a routerLink="/">Voltar para o site</a>
+  </div>
+</div>

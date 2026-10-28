@@ -1,0 +1,46 @@
+
+.titulo-pagina {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.titulo-pagina h1 {
+  color: #663d69;
+  font-size: 34px;
+  margin: 12px 0;
+}
+
+.titulo-pagina p {
+  color: #817481;
+}
+
+.etiqueta {
+  color: #b05d91;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.mensagem {
+  max-width: 650px;
+  margin: auto;
+  padding: 40px 25px;
+  background: white;
+  border: 1px solid #f0e2ed;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.mensagem h2 {
+  color: #663d69;
+}
+
+.mensagem p {
+  line-height: 1.8;
+  color: #817481;
+}
+
+.icone {
+  font-size: 38px;
+  color: #b47a9f;
+}

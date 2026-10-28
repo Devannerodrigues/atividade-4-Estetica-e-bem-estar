@@ -1,0 +1,10 @@
+
+.apresentacao {
+  max-width: 750px;
+  margin: 40px auto;
+  line-height: 1.8;
+}
+
+.apresentacao h2 {
+  color: #663d69;
+}

@@ -1,0 +1,74 @@
+
+<div class="carrinho-container">
+  <header class="carrinho-cabecalho">
+    <h1>Meu carrinho</h1>
+    <a routerLink="/produtos">Continuar comprando</a>
+  </header>
+
+  <section *ngIf="itens.length === 0" class="carrinho-vazio">
+    <h2>Seu carrinho está vazio</h2>
+    <p>Explore nossos produtos de beleza e bem-estar.</p>
+    <a routerLink="/produtos" class="botao-principal">
+      Ver produtos
+    </a>
+  </section>
+
+  <div *ngIf="itens.length > 0" class="carrinho-conteudo">
+    <section class="lista-itens">
+      <article class="item-carrinho" *ngFor="let item of itens">
+        <div class="item-info">
+          <h3>{{ item.nome }}</h3>
+          <p>
+            {{ item.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            por unidade
+          </p>
+        </div>
+
+        <div class="item-acoes">
+          <label [for]="'quantidade-' + item.id">Quantidade</label>
+
+          <input
+            [id]="'quantidade-' + item.id"
+            type="number"
+            min="1"
+            step="1"
+            [value]="item.quantidade"
+            (change)="alterarQuantidade(item, +$any($event.target).value)"
+          />
+
+          <strong>
+            {{ item.preco * item.quantidade | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+
+          <button type="button" (click)="remover(item)">
+            Remover
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <aside class="resumo-compra">
+      <h2>Resumo da compra</h2>
+
+      <p>
+        Quantidade de itens:
+        <strong>{{ carrinho.totalItens() }}</strong>
+      </p>
+
+      <p class="total">
+        Total:
+        <strong>
+          {{ carrinho.valorTotal() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </strong>
+      </p>
+
+      <button type="button" (click)="finalizarCompra()">
+        Continuar para pagamento
+      </button>
+
+      <p class="aviso">
+        O pagamento será implementado na próxima etapa.
+      </p>
+    </aside>
+  </div>
+</div>

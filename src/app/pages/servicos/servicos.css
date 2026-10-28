@@ -1,0 +1,65 @@
+
+.servicos-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 45px 24px;
+}
+
+.servicos-container h1 {
+  color: #502d79;
+  font-size: 34px;
+  text-align: center;
+}
+
+.subtitulo {
+  color: #777;
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.lista-servicos {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(240px, 1fr)
+  );
+  gap: 25px;
+}
+
+.servico-card {
+  background: white;
+  padding: 28px;
+  text-align: center;
+  border: 1px solid #eee5f3;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgba(80, 45, 121, 0.08);
+}
+
+.servico-icone {
+  color: #8373b7;
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.servico-card h2 {
+  color: #502d79;
+  font-size: 21px;
+}
+
+.servico-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.servico-card .preco {
+  color: #502d79;
+  font-size: 23px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .servicos-container {
+    padding: 30px 16px;
+  }
+}

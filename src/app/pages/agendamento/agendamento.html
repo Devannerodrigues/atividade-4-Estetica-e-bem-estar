@@ -1,0 +1,103 @@
+
+<section class="agendamento-container">
+  <header>
+    <h1>Agende seu atendimento</h1>
+    <p>Escolha o serviço, a data e um horário disponível.</p>
+  </header>
+
+  <form class="agendamento-card" (ngSubmit)="confirmarAgendamento()">
+
+    <div class="campo">
+      <label for="nomeCliente">Nome completo</label>
+      <input
+        id="nomeCliente"
+        name="nomeCliente"
+        [(ngModel)]="nomeCliente"
+        required
+        autocomplete="name"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="email"
+        required
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="servico">Serviço</label>
+      <select
+        id="servico"
+        name="servico"
+        [(ngModel)]="servico"
+        required
+      >
+        <option value="">Selecione um serviço</option>
+        <option *ngFor="let item of servicos" [value]="item.nome">
+          {{ item.nome }} — {{ item.duracao }} min —
+          {{ item.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="data">Data do atendimento</label>
+      <input
+        id="data"
+        name="data"
+        type="date"
+        [(ngModel)]="data"
+        [min]="hoje"
+        (ngModelChange)="horario = ''"
+        required
+      />
+    </div>
+
+    <div class="campo">
+      <label for="horario">Horário disponível</label>
+      <select
+        id="horario"
+        name="horario"
+        [(ngModel)]="horario"
+        [disabled]="!data"
+        required
+      >
+        <option value="">Selecione um horário</option>
+        <option *ngFor="let hora of horariosDisponiveis" [value]="hora">
+          {{ hora }}
+        </option>
+      </select>
+
+      <small *ngIf="data && horariosDisponiveis.length === 0">
+        Não há horários disponíveis nessa data.
+      </small>
+    </div>
+
+    <p *ngIf="erro" class="mensagem-erro" role="alert">
+      {{ erro }}
+    </p>
+
+    <p *ngIf="sucesso" class="mensagem-sucesso" role="status">
+      {{ sucesso }}
+    </p>
+
+    <div class="informacao-pagamento">
+      <strong>Pagamento:</strong>
+      presencial na clínica, no dia do atendimento.
+    </div>
+
+    <button type="submit" class="botao-principal">
+      Confirmar agendamento
+    </button>
+
+    <a routerLink="/servicos" class="link-servicos">
+      Voltar aos serviços
+    </a>
+  </form>
+</section>

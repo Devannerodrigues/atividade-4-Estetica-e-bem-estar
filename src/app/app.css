@@ -1,0 +1,111 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #39313b;
+  background: #fffafc;
+}
+
+.cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 7%;
+  background: white;
+  border-bottom: 1px solid #f0e2ed;
+  flex-wrap: wrap;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #663d69;
+  text-decoration: none;
+}
+
+.simbolo {
+  font-size: 38px;
+  color: #b47a9f;
+}
+
+.marca strong,
+.marca small {
+  display: block;
+}
+
+.marca strong {
+  font-size: 19px;
+}
+
+.marca small {
+  margin-top: 5px;
+  color: #887b88;
+}
+
+.menu {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.menu a {
+  color: #5f4b61;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.menu a:hover,
+.menu a.ativo {
+  color: #b05d91;
+}
+
+main {
+  min-height: 75vh;
+}
+
+.rodape {
+  padding: 22px;
+  text-align: center;
+  background: #663d69;
+  color: white;
+}
+
+.pagina {
+  padding: 50px 7%;
+}
+
+.destaque {
+  padding: 55px 30px;
+  text-align: center;
+  border-radius: 20px;
+  background: #f5e8f1;
+}
+
+.destaque h1 {
+  color: #663d69;
+  font-size: clamp(28px, 4vw, 44px);
+}
+
+.destaque p {
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .cabecalho {
+    padding: 18px 5%;
+  }
+
+  .menu {
+    gap: 14px;
+  }
+
+  .pagina {
+    padding: 30px 5%;
+  }
+}

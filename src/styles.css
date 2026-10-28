@@ -1,1 +1,140 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --cor-principal: #502d79;
+  --cor-secundaria: #8373b7;
+  --cor-destaque: #44a4b7;
+  --cor-fundo: #f8f8f8;
+  --cor-branca: #ffffff;
+  --cor-texto: #444444;
+  --cor-texto-suave: #777777;
+  --cor-borda: #e8e0ef;
+
+  --raio-card: 16px;
+  --raio-botao: 8px;
+
+  --sombra-card: 0 5px 18px rgba(80, 45, 121, 0.08);
+  --transicao-padrao: 0.2s ease;
+}
+
+/* Configuração geral */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--cor-principal);
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  transition: background var(--transicao-padrao),
+              transform var(--transicao-padrao);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--cor-destaque);
+  outline-offset: 3px;
+}
+
+/* Títulos */
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--cor-principal);
+  line-height: 1.25;
+}
+
+/* Botões padronizados */
+
+.botao-principal {
+  display: inline-block;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--raio-botao);
+  background: var(--cor-principal);
+  color: var(--cor-branca);
+  font-weight: 600;
+}
+
+.botao-principal:hover {
+  background: #6a4096;
+  transform: translateY(-2px);
+}
+
+.botao-secundario {
+  display: inline-block;
+  padding: 11px 22px;
+  border: 1px solid var(--cor-principal);
+  border-radius: var(--raio-botao);
+  background: transparent;
+  color: var(--cor-principal);
+  font-weight: 600;
+}
+
+.botao-secundario:hover {
+  background: #f0e8f7;
+}
+
+/* Campos de formulário */
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8d0df;
+  border-radius: var(--raio-botao);
+  background: var(--cor-branca);
+  color: var(--cor-texto);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--cor-secundaria);
+  outline: none;
+}
+
+/* Layout responsivo */
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+}

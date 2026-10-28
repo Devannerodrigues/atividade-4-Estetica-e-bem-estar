@@ -1,0 +1,154 @@
+
+.produtos-container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 45px 24px;
+  min-height: 400px;
+}
+
+.produtos-cabecalho {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.produtos-cabecalho h1 {
+  color: #502d79;
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.subtitulo {
+  color: #777;
+  font-size: 16px;
+}
+
+.lista-produtos {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(240px, 1fr)
+  );
+  gap: 25px;
+}
+
+.produto-card {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #eee5f3;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgba(80, 45, 121, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.produto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 9px 24px rgba(80, 45, 121, 0.14);
+}
+
+.produto-imagem {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    #f3eafa,
+    #f9f4fc
+  );
+}
+
+.produto-imagem span {
+  color: #8373b7;
+  font-size: 65px;
+}
+
+.produto-informacoes {
+  padding: 22px;
+}
+
+.produto-informacoes h2 {
+  color: #502d79;
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+
+.descricao {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 45px;
+}
+
+.unidade {
+  color: #8373b7;
+  font-size: 13px;
+}
+
+.preco {
+  color: #502d79;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 18px;
+  margin-bottom: 0;
+}
+
+.mensagem {
+  text-align: center;
+  color: #666;
+  padding: 25px;
+}
+
+.erro {
+  color: #b00020;
+}
+
+.botao-detalhes {
+  margin-top: 12px;
+  padding: 10px 18px;
+  background: #502d79;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.botao-detalhes:hover {
+  background: #6a4096;
+}
+
+@media (max-width: 600px) {
+  .produtos-container {
+    padding: 30px 16px;
+  }
+
+  .produtos-cabecalho h1 {
+    font-size: 28px;
+  }
+}
+
+
+.botao-adicionar,
+.botao-carrinho {
+  display: inline-block;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #502d79;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botao-adicionar:hover,
+.botao-carrinho:hover {
+  background: #8373b7;
+}
+
+.mensagem-sucesso {
+  margin: 16px 0;
+  padding: 12px;
+  border-radius: 6px;
+  background: #e5f5e9;
+  color: #216b35;
+}

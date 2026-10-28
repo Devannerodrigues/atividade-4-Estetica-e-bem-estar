@@ -1,0 +1,30 @@
+
+<section class="servicos-container">
+
+  <h1>Nossos Serviços</h1>
+
+  <p class="subtitulo">
+    Momentos de cuidado, beleza e bem-estar para você.
+  </p>
+
+  <div class="lista-servicos">
+
+    <article
+      class="servico-card"
+      *ngFor="let servico of servicos">
+
+      <div class="servico-icone">✿</div>
+
+      <h2>{{ servico.nome }}</h2>
+
+      <p>{{ servico.descricao }}</p>
+
+      <p class="preco">
+        {{ servico.preco | currency:'BRL':'symbol':'1.2-2' }}
+      </p>
+
+    </article>
+
+  </div>
+
+</section>

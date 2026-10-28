@@ -1,0 +1,80 @@
+
+<section class="formulario-container">
+  <form class="formulario-card" (ngSubmit)="cadastrar()">
+    <h1>Crie sua conta</h1>
+    <p>Faça seu cadastro na Estética Bem-Estar.</p>
+
+    <div class="campo">
+      <label for="nome">Nome completo *</label>
+      <input
+        id="nome"
+        name="nome"
+        type="text"
+        [(ngModel)]="nome"
+        required
+        autocomplete="name"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail *</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="email"
+        required
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="telefone">Telefone</label>
+      <input
+        id="telefone"
+        name="telefone"
+        type="tel"
+        [(ngModel)]="telefone"
+        autocomplete="tel"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="senha">Senha *</label>
+      <input
+        id="senha"
+        name="senha"
+        type="password"
+        [(ngModel)]="senha"
+        required
+        minlength="8"
+        autocomplete="new-password"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="confirmarSenha">Confirme sua senha *</label>
+      <input
+        id="confirmarSenha"
+        name="confirmarSenha"
+        type="password"
+        [(ngModel)]="confirmarSenha"
+        required
+        autocomplete="new-password"
+      />
+    </div>
+
+    <p *ngIf="erro" class="mensagem-erro" role="alert">
+      {{ erro }}
+    </p>
+
+    <button type="submit" class="botao-principal">
+      Cadastrar
+    </button>
+
+    <p class="link-conta">
+      Já possui uma conta?
+      <a routerLink="/cliente/login">Entrar</a>
+    </p>
+  </form>
+</section>

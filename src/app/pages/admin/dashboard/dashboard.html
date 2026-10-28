@@ -1,0 +1,49 @@
+
+<div class="admin-container">
+
+  <aside class="admin-menu">
+    <h2>Estética Bem-Estar</h2>
+    <p>Painel administrativo</p>
+
+    <nav>
+      <a routerLink="/admin/dashboard">Início</a>
+      <a routerLink="/admin/produtos">Gerenciar produtos</a>
+      <a routerLink="/admin/servicos">Gerenciar serviços</a>
+      <a routerLink="/">Ver site público</a>
+    </nav>
+
+    <button type="button" (click)="sair()">Sair</button>
+  </aside>
+
+  <main class="admin-content">
+    <header class="admin-header">
+      <div>
+        <h1>Painel administrativo</h1>
+        <p>Bem-vinda à área de gerenciamento.</p>
+      </div>
+    </header>
+
+    <section class="boas-vindas">
+      <h2>Olá, administradora!</h2>
+      <p>
+        Aqui você poderá organizar os produtos e serviços
+        oferecidos pela Estética Bem-Estar.
+      </p>
+    </section>
+
+    <section class="admin-cards">
+      <article class="admin-card">
+        <h3>Produtos</h3>
+        <p>Cadastre novos produtos e atualize as informações existentes.</p>
+        <a routerLink="/admin/produtos">Acessar produtos</a>
+      </article>
+
+      <article class="admin-card">
+        <h3>Serviços</h3>
+        <p>Gerencie os serviços, suas descrições e seus preços.</p>
+        <a routerLink="/admin/servicos">Acessar serviços</a>
+      </article>
+    </section>
+  </main>
+
+</div>

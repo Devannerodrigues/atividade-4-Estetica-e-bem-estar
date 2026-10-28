@@ -1,0 +1,131 @@
+
+.produtos-admin {
+  padding: 30px;
+}
+
+.pagina-cabecalho,
+.lista-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pagina-cabecalho h1,
+.lista-cabecalho h2 {
+  margin-bottom: 6px;
+}
+
+.pagina-cabecalho p {
+  margin-top: 0;
+  color: #666;
+}
+
+.lista-produtos,
+.formulario-produto {
+  margin-top: 25px;
+  padding: 24px;
+  border: 1px solid #e8e0ef;
+  border-radius: 12px;
+  background: white;
+}
+
+.lista-cabecalho button,
+.acoes-formulario button {
+  padding: 11px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #502d79;
+  color: white;
+}
+
+.botao-voltar,
+.botao-editar {
+  display: inline-block;
+  padding: 9px 13px;
+  border: 1px solid #502d79;
+  border-radius: 6px;
+  background: white;
+  color: #502d79;
+}
+
+.tabela-responsiva {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e8e0ef;
+  text-align: left;
+}
+
+th {
+  background: #f4eff8;
+  color: #502d79;
+}
+
+td small {
+  display: block;
+  margin-top: 4px;
+  color: #777;
+}
+
+.campo {
+  margin-bottom: 18px;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px;
+  border: 1px solid #d8d0df;
+  border-radius: 6px;
+}
+
+.acoes-formulario {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.acoes-formulario .botao-cancelar {
+  background: #eee;
+  color: #444;
+}
+
+.mensagem {
+  margin-top: 16px;
+  color: #286b3b;
+}
+
+.erro {
+  color: #c62828;
+}
+
+@media (max-width: 600px) {
+  .produtos-admin {
+    padding: 16px;
+  }
+
+  .lista-produtos,
+  .formulario-produto {
+    padding: 16px;
+  }
+}
