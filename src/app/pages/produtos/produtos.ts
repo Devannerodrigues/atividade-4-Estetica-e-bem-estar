@@ -3,12 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../../services/produto';
 import { CarrinhoService } from '../../services/carrinho.service';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-produtos',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './produtos.html',
   styleUrl: './produtos.css'
 })

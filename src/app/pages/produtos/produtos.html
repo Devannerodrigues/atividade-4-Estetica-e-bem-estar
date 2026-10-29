@@ -1,112 +1,57 @@
 
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { ProdutoService } from '../../services/produto';
-import { CarrinhoService } from '../../services/carrinho.service';
+<section class="produtos-container">
 
-@Component({
-  selector: 'app-produtos',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './produtos.html',
-  styleUrl: './produtos.css'
-})
-export class Produtos implements OnInit {
-  produtos: any[] = [];
-  carregando = true;
-  erro = '';
-  mensagem = '';
+  <header class="produtos-cabecalho">
+    <h1>Nossos Produtos</h1>
+    <p class="subtitulo">
+      Cuide de você com nossos produtos especiais.
+    </p>
+  </header>
 
-  constructor(
-    private produtoService: ProdutoService,
-    private carrinhoService: CarrinhoService
-  ) {}
+  <p *ngIf="carregando" class="mensagem">
+    Carregando produtos...
+  </p>
 
-  ngOnInit(): void {
-    this.carregarProdutos();
-  }
+  <p *ngIf="erro" class="mensagem erro">
+    {{ erro }}
+  </p>
 
-  carregarProdutos(): void {
-    this.carregando = true;
-    this.erro = '';
+  <p *ngIf="mensagem" class="mensagem sucesso">
+    {{ mensagem }}
+  </p>
 
-    this.produtoService.listar().subscribe({
-      next: (dados: any[]) => {
-        this.produtos = Array.isArray(dados) ? dados : [];
-        this.carregando = false;
-      },
-      error: (erro) => {
-        console.error('Erro ao buscar produtos:', erro);
-        this.erro =
-          'Não foi possível carregar os produtos. Verifique se o backend está funcionando.';
-        this.carregando = false;
-      }
-    });
-  }
+  <div class="produtos-grid" *ngIf="!carregando && !erro">
 
-  obterNome(produto: any): string {
-    return produto?.iditemNavigation?.item
-      ?? produto?.IditemNavigation?.Item
-      ?? produto?.item
-      ?? produto?.Item
-      ?? produto?.nome
-      ?? produto?.Nome
-      ?? 'Produto sem nome';
-  }
+    <article class="produto-card" *ngFor="let produto of produtos">
 
-  obterDescricao(produto: any): string {
-    return produto?.iditemNavigation?.descricaoItem
-      ?? produto?.IditemNavigation?.DescricaoItem
-      ?? produto?.descricaoItem
-      ?? produto?.DescricaoItem
-      ?? produto?.descricao
-      ?? produto?.Descricao
-      ?? 'Sem descrição disponível.';
-  }
+      <div class="produto-info">
+        <h2>{{ obterNome(produto) }}</h2>
 
-  obterPreco(produto: any): number {
-    const preco =
-      produto?.precoVenda
-      ?? produto?.PrecoVenda
-      ?? produto?.preco_venda
-      ?? produto?.preco
-      ?? produto?.Preco
-      ?? 0;
+        <p>{{ obterDescricao(produto) }}</p>
 
-    return Number(preco);
-  }
+        <span class="produto-unidade">
+          Unidade: {{ obterUnidade(produto) }}
+        </span>
 
-  obterUnidade(produto: any): string {
-    return produto?.unidade ?? produto?.Unidade ?? 'UN';
-  }
+        <p class="produto-preco">
+          {{ obterPreco(produto) | currency:'BRL':'symbol':'1.2-2' }}
+        </p>
 
-  obterId(produto: any): number | string | null {
-    return produto?.idproduto
-      ?? produto?.Idproduto
-      ?? produto?.idProduto
-      ?? produto?.iditem
-      ?? produto?.Iditem
-      ?? produto?.id
-      ?? produto?.Id
-      ?? null;
-  }
+        <button
+          type="button"
+          (click)="adicionarAoCarrinho(produto)">
+          Adicionar ao carrinho
+        </button>
+      </div>
 
-  adicionarAoCarrinho(produto: any): void {
-    const id = this.obterId(produto);
-    const preco = this.obterPreco(produto);
+    </article>
 
-    if (id === null || !Number.isFinite(preco) || preco < 0) {
-      this.mensagem = 'Não foi possível adicionar este produto ao carrinho.';
-      return;
-    }
+  </div>
 
-    this.carrinhoService.adicionar({
-      id,
-      nome: this.obterNome(produto),
-      preco
-    });
+  <p
+    *ngIf="!carregando && !erro && produtos.length === 0"
+    class="mensagem">
+    Nenhum produto encontrado.
+  </p>
 
-    this.mensagem = `${this.obterNome(produto)} foi adicionado ao carrinho!`;
-  }
-}
+</section>
