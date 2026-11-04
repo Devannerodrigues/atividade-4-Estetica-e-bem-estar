@@ -11,11 +11,11 @@ export class ProdutoService {
 
   constructor(private http: HttpClient) {}
 
-  listar(): Observable<unknown[]> {
-    return this.http.get<unknown[]>(this.apiUrl);
+  listar(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  buscarPorId(id: number): Observable<unknown> {
-    return this.http.get<unknown>(`${this.apiUrl}/${id}`);
+  buscarPorId(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 }

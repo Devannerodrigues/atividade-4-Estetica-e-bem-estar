@@ -46,8 +46,11 @@
               <small>{{ produto.descricao }}</small>
             </td>
             <td>{{ produto.categoria }}</td>
-            <td>{{ produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
-            <td>{{ produto.unidade }}</td>
+<td>
+  Valor: {{ produto.preco }}
+  <br>
+  Preço: {{ produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+</td>
             <td>
               <button
                 type="button"

@@ -38,11 +38,13 @@
   border-radius: 16px;
   box-shadow: 0 5px 18px rgba(80, 45, 121, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+   cursor: pointer;
 }
 
 .produto-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 9px 24px rgba(80, 45, 121, 0.14);
+   cursor: pointer;
 }
 
 .produto-imagem {

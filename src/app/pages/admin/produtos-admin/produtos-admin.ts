@@ -21,6 +21,7 @@ interface ProdutoAdmin {
   styleUrl: './produtos-admin.css'
 })
 export class ProdutosAdmin {
+
   produtos: ProdutoAdmin[] = [
     {
       id: 1,
@@ -73,17 +74,20 @@ export class ProdutosAdmin {
   }
 
   salvarProduto(): void {
+
     if (
       !this.produtoAtual.nome.trim() ||
+      !this.produtoAtual.descricao.trim() ||
       !this.produtoAtual.categoria.trim() ||
       !this.produtoAtual.unidade.trim() ||
       this.produtoAtual.preco <= 0
     ) {
-      this.mensagem = 'Preencha os campos obrigatórios e informe um preço maior que zero.';
+      this.mensagem = 'Preencha todos os campos obrigatórios e informe um preço maior que zero.';
       return;
     }
 
     if (this.modoEdicao) {
+
       const indice = this.produtos.findIndex(
         produto => produto.id === this.produtoAtual.id
       );
@@ -93,7 +97,9 @@ export class ProdutosAdmin {
       }
 
       this.mensagem = 'Produto atualizado com sucesso.';
+
     } else {
+
       this.produtos.push({
         ...this.produtoAtual,
         id: this.proximoId++
@@ -111,4 +117,5 @@ export class ProdutosAdmin {
     this.produtoAtual = this.novoProduto();
     this.mensagem = '';
   }
+
 }

@@ -3,12 +3,14 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 45px 24px;
+   cursor: pointer;
 }
 
 .servicos-container h1 {
   color: #502d79;
   font-size: 34px;
   text-align: center;
+   cursor: pointer;
 }
 
 .subtitulo {
@@ -24,6 +26,7 @@
     minmax(240px, 1fr)
   );
   gap: 25px;
+   cursor: pointer;
 }
 
 .servico-card {
@@ -33,22 +36,26 @@
   border: 1px solid #eee5f3;
   border-radius: 16px;
   box-shadow: 0 5px 18px rgba(80, 45, 121, 0.08);
+   cursor: pointer;
 }
 
 .servico-icone {
   color: #8373b7;
   font-size: 48px;
   margin-bottom: 12px;
+   cursor: pointer;
 }
 
 .servico-card h2 {
   color: #502d79;
   font-size: 21px;
+   cursor: pointer;
 }
 
 .servico-card p {
   color: #666;
   line-height: 1.6;
+   cursor: pointer;
 }
 
 .servico-card .preco {
@@ -56,6 +63,7 @@
   font-size: 23px;
   font-weight: bold;
   margin-top: 20px;
+   cursor: pointer;
 }
 
 @media (max-width: 600px) {
