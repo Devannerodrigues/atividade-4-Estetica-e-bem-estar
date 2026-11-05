@@ -35,7 +35,7 @@
   overflow: hidden;
   background: #fff;
   border: 1px solid #eee5f3;
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: 0 5px 18px rgba(80, 45, 121, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
    cursor: pointer;

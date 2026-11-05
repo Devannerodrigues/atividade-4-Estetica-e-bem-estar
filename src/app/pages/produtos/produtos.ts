@@ -1,6 +1,9 @@
 
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../../services/produto';
 import { CarrinhoService } from '../../services/carrinho.service';
 
@@ -19,34 +22,49 @@ export class Produtos implements OnInit {
   mensagem = '';
 
   constructor(
-    private produtoService: ProdutoService,
-    private carrinhoService: CarrinhoService
-  ) {}
+  private produtoService: ProdutoService,
+  private carrinhoService: CarrinhoService,
+  private cdr: ChangeDetectorRef
+) {}
 
   ngOnInit(): void {
     this.carregarProdutos();
   }
 
-  carregarProdutos(): void {
-    this.carregando = true;
-    this.erro = '';
 
-    this.produtoService.listar().subscribe({
-      next: (dados: any[]) => {
-        console.log('Dados recebidos da API:', dados);
-        this.produtos = Array.isArray(dados) ? dados : [];
-        this.carregando = false;
-      },
-      error: (erro) => {
-        console.error('Erro ao buscar produtos:', erro);
+carregarProdutos(): void {
+  this.carregando = true;
+  this.erro = '';
 
-        this.erro =
-          'Não foi possível carregar os produtos. Verifique se o backend está funcionando.';
+  this.produtoService.listar().subscribe({
 
-        this.carregando = false;
-      }
-    });
-  }
+    next: (dados: any[]) => {
+
+      console.log('DADOS DA API:', dados);
+
+      this.produtos = Array.isArray(dados) ? dados : [];
+
+      this.carregando = false;
+
+      console.log('TOTAL DE PRODUTOS:', this.produtos.length);
+      console.log('CARREGANDO:', this.carregando);
+
+      this.cdr.detectChanges();
+    },
+
+    error: (erro) => {
+
+      console.error('ERRO NA API:', erro);
+
+      this.erro = 'Não foi possível carregar os produtos.';
+      this.carregando = false;
+
+      this.cdr.detectChanges();
+    }
+
+  });
+}
+
 
   obterNome(produto: any): string {
     return (
