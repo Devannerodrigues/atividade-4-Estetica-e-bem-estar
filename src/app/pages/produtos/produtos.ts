@@ -70,21 +70,25 @@ carregarProdutos(): void {
     return (
       produto?.iditemNavigation?.item ??
       produto?.IditemNavigation?.Item ??
+      produto?.iditemNavigation?.item1 ??
+      produto?.IditemNavigation?.Item1 ??
       produto?.item ??
       produto?.Item ??
+      produto?.Item1 ??
+      produto?.item1 ??
       'Produto sem nome'
     );
   }
 
   obterDescricao(produto: any): string {
-    return (
-      produto?.iditemNavigation?.descricaoItem ??
-      produto?.IditemNavigation?.DescricaoItem ??
-      produto?.descricaoItem ??
-      produto?.DescricaoItem ??
-      'Sem descrição disponível.'
-    );
-  }
+  return (
+    produto?.iditemNavigation?.descricaoItem ??
+    produto?.IditemNavigation?.DescricaoItem ??
+    produto?.descricaoItem ??
+    produto?.DescricaoItem ??
+    'Sem descrição disponível.'
+  );
+}
 
   obterPreco(produto: any): number {
     const preco =

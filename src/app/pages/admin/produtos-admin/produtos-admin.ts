@@ -1,8 +1,9 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ProdutoService } from '../../../services/produto';
 
 interface ProdutoAdmin {
   id: number;
@@ -20,45 +21,73 @@ interface ProdutoAdmin {
   templateUrl: './produtos-admin.html',
   styleUrl: './produtos-admin.css'
 })
-export class ProdutosAdmin {
+export class ProdutosAdmin implements OnInit {
 
-  produtos: ProdutoAdmin[] = [
-    {
-      id: 1,
-      nome: 'Hidratante Corporal',
-      descricao: 'Hidratação e cuidado diário para a pele.',
-      categoria: 'Cosméticos',
-      preco: 49.90,
-      unidade: 'Unidade'
-    },
-    {
-      id: 2,
-      nome: 'Sérum Facial',
-      descricao: 'Produto para cuidados faciais.',
-      categoria: 'Cosméticos',
-      preco: 65.00,
-      unidade: 'Unidade'
-    }
-  ];
+  produtos: ProdutoAdmin[] = [];
 
   formularioAberto = false;
   modoEdicao = false;
   mensagem = '';
-  proximoId = 3;
+  carregando = false;
+  salvando = false;
 
   produtoAtual: ProdutoAdmin = this.novoProduto();
 
+  constructor(
+    private produtoService: ProdutoService
+  ) {}
+
+  ngOnInit(): void {
+    this.carregarProdutos();
+  }
+
+  // PRODUTO VAZIO
   private novoProduto(): ProdutoAdmin {
     return {
       id: 0,
       nome: '',
       descricao: '',
-      categoria: '',
+      categoria: 'Cosméticos',
       preco: 0,
       unidade: 'Unidade'
     };
   }
 
+  // LISTAR PRODUTOS DO BANCO
+  carregarProdutos(): void {
+    this.carregando = true;
+    this.mensagem = '';
+
+    this.produtoService.listar().subscribe({
+      next: (dados: any[]) => {
+
+        this.produtos = dados.map(p => ({
+          id: p.iditem ?? p.Iditem,
+          nome:
+            p.iditemNavigation?.item1 ??
+            p.IditemNavigation?.Item1 ??
+            'Produto sem nome',
+          descricao:
+            p.iditemNavigation?.descricaoItem ??
+            p.IditemNavigation?.DescricaoItem ??
+            '',
+          categoria: 'Cosméticos',
+          preco: Number(p.precoVenda ?? p.PrecoVenda ?? 0),
+          unidade: p.unidade ?? p.Unidade ?? 'UN'
+        }));
+
+        this.carregando = false;
+      },
+
+      error: (erro) => {
+        console.error('Erro ao listar produtos:', erro);
+        this.mensagem = 'Não foi possível carregar os produtos.';
+        this.carregando = false;
+      }
+    });
+  }
+
+  // ABRIR CADASTRO
   abrirCadastro(): void {
     this.produtoAtual = this.novoProduto();
     this.modoEdicao = false;
@@ -66,6 +95,7 @@ export class ProdutosAdmin {
     this.mensagem = '';
   }
 
+  // EDITAR PRODUTO
   editarProduto(produto: ProdutoAdmin): void {
     this.produtoAtual = { ...produto };
     this.modoEdicao = true;
@@ -73,6 +103,26 @@ export class ProdutosAdmin {
     this.mensagem = '';
   }
 
+  // MONTAR DADOS PARA O DTO DO BACKEND
+  private montarDTO() {
+    const unidade = this.produtoAtual.unidade === 'Unidade'
+      ? 'UN'
+      : this.produtoAtual.unidade;
+
+    return {
+      idCategoria: 1,
+      item: this.produtoAtual.nome.trim(),
+      descricaoItem: this.produtoAtual.descricao.trim(),
+      preco: this.produtoAtual.preco,
+      tipoItem: 'P',
+      ativoProdutoServico: 'S',
+      codigoPreco: 1,
+      precoVenda: this.produtoAtual.preco,
+      unidade: unidade
+    };
+  }
+
+  // CADASTRAR OU ATUALIZAR
   salvarProduto(): void {
 
     if (
@@ -80,38 +130,70 @@ export class ProdutosAdmin {
       !this.produtoAtual.descricao.trim() ||
       !this.produtoAtual.categoria.trim() ||
       !this.produtoAtual.unidade.trim() ||
+      !Number.isFinite(this.produtoAtual.preco) ||
       this.produtoAtual.preco <= 0
     ) {
-      this.mensagem = 'Preencha todos os campos obrigatórios e informe um preço maior que zero.';
+      this.mensagem = 'Preencha todos os campos e informe um preço válido.';
       return;
     }
 
+    this.salvando = true;
+    this.mensagem = '';
+
+    const dados = this.montarDTO();
+
     if (this.modoEdicao) {
 
-      const indice = this.produtos.findIndex(
-        produto => produto.id === this.produtoAtual.id
-      );
+      this.produtoService.atualizar(
+        this.produtoAtual.id,
+        dados
+      ).subscribe({
 
-      if (indice !== -1) {
-        this.produtos[indice] = { ...this.produtoAtual };
-      }
+        next: () => {
+          this.mensagem = 'Produto atualizado com sucesso!';
+          this.finalizarOperacao();
+        },
 
-      this.mensagem = 'Produto atualizado com sucesso.';
+        error: (erro) => {
+          console.error('Erro ao atualizar:', erro);
+          this.mensagem = 'Não foi possível atualizar o produto.';
+          this.salvando = false;
+        }
+
+      });
 
     } else {
 
-      this.produtos.push({
-        ...this.produtoAtual,
-        id: this.proximoId++
+      this.produtoService.cadastrar(dados).subscribe({
+
+        next: () => {
+          this.mensagem = 'Produto cadastrado com sucesso!';
+          this.finalizarOperacao();
+        },
+
+        error: (erro) => {
+          console.error('Erro ao cadastrar:', erro);
+          this.mensagem =
+            erro.error?.erro ??
+            erro.error?.mensagem ??
+            'Não foi possível cadastrar o produto.';
+          this.salvando = false;
+        }
+
       });
 
-      this.mensagem = 'Produto cadastrado com sucesso.';
     }
-
-    this.formularioAberto = false;
-    this.produtoAtual = this.novoProduto();
   }
 
+  // FINALIZAR OPERAÇÃO
+  private finalizarOperacao(): void {
+    this.salvando = false;
+    this.formularioAberto = false;
+    this.produtoAtual = this.novoProduto();
+    this.carregarProdutos();
+  }
+
+  // CANCELAR
   cancelar(): void {
     this.formularioAberto = false;
     this.produtoAtual = this.novoProduto();

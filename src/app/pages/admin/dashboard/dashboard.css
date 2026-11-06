@@ -4,6 +4,15 @@
   min-height: 80vh;
 }
 
+.logo-admin {
+  display: block;
+  width: 190px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 15px;
+  border-radius: 10px;
+}
+
 .admin-menu {
   width: 250px;
   flex-shrink: 0;

@@ -45,20 +45,17 @@
               <strong>{{ produto.nome }}</strong>
               <small>{{ produto.descricao }}</small>
             </td>
-            <td>{{ produto.categoria }}</td>
+         <td>{{ produto.categoria }}</td>
+
 <td>
-  Valor: {{ produto.preco }}
-  <br>
-  Preço: {{ produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+  {{ produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
 </td>
+
+<td>{{ produto.unidade }}</td>
             <td>
-              <button
-                type="button"
-                class="botao-editar"
-                (click)="editarProduto(produto)"
-              >
-                Editar
-              </button>
+              <button type="submit" [disabled]="salvando">
+  {{ salvando ? 'Salvando...' : (modoEdicao ? 'Salvar alterações' : 'Cadastrar produto') }}
+</button>
             </td>
           </tr>
         </tbody>

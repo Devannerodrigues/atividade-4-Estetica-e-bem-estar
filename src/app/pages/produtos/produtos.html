@@ -1,3 +1,4 @@
+
 <section class="produtos-container">
 
   <header class="produtos-cabecalho">
@@ -26,11 +27,11 @@
       <div class="produto-info">
 
         <h2>
-          {{ produto.iditemNavigation?.item || produto.item || 'Produto sem nome' }}
+          {{ produto.iditemNavigation?.item1 || produto.IditemNavigation?.Item1 || 'Produto sem nome' }}
         </h2>
 
         <p>
-          {{ produto.iditemNavigation?.descricaoItem || produto.descricaoItem || 'Sem descrição disponível.' }}
+          {{ produto.iditemNavigation?.descricaoItem || produto.IditemNavigation?.DescricaoItem || 'Sem descrição disponível.' }}
         </p>
 
         <span class="produto-unidade">
@@ -38,7 +39,7 @@
         </span>
 
         <p class="produto-preco">
-          {{ (produto.precoVenda || produto.PrecoVenda) | currency:'BRL':'symbol':'1.2-2' }}
+          {{ (produto.precoVenda ?? produto.PrecoVenda) | currency:'BRL':'symbol':'1.2-2' }}
         </p>
 
         <button
