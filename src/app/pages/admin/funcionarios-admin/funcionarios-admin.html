@@ -1,0 +1,275 @@
+
+<div class="funcionarios-container">
+
+  <header class="pagina-cabecalho">
+    <div>
+      <h1>Gerenciamento de Funcionários</h1>
+      <p>Cadastre e gerencie a equipe da Estética & Bem-Estar.</p>
+    </div>
+
+    <a routerLink="/admin/dashboard" class="btn-voltar">
+      ← Voltar ao painel
+    </a>
+  </header>
+
+  <!-- Indicadores -->
+  <section class="indicadores">
+
+    <div class="card-indicador">
+      <div class="icone roxo">👥</div>
+      <div>
+        <span>Total de funcionários</span>
+        <h2>{{ totalFuncionarios }}</h2>
+      </div>
+    </div>
+
+    <div class="card-indicador">
+      <div class="icone verde">✓</div>
+      <div>
+        <span>Funcionários ativos</span>
+        <h2>{{ ativos }}</h2>
+      </div>
+    </div>
+
+    <div class="card-indicador">
+      <div class="icone vermelho">⊘</div>
+      <div>
+        <span>Funcionários inativos</span>
+        <h2>{{ inativos }}</h2>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Listagem -->
+  <section class="funcionarios-conteudo">
+
+    <div class="conteudo-cabecalho">
+      <div>
+        <h2>Equipe cadastrada</h2>
+        <p>Consulte e atualize os dados dos funcionários.</p>
+      </div>
+
+      <button class="btn-novo" (click)="abrirCadastro()">
+        + Novo funcionário
+      </button>
+    </div>
+
+    <!-- Pesquisa -->
+    <div class="filtros">
+
+      <div class="campo-pesquisa">
+        <span>🔎</span>
+        <input
+          type="text"
+          [(ngModel)]="pesquisa"
+          placeholder="Pesquisar por nome, CPF ou cargo..."
+        >
+      </div>
+
+      <select [(ngModel)]="filtro">
+        <option value="todos">Todos</option>
+        <option value="ativos">Ativos</option>
+        <option value="inativos">Inativos</option>
+      </select>
+
+    </div>
+
+    <!-- Tabela -->
+    <div class="tabela-responsiva">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Funcionário</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+            <th>Cargo</th>
+            <th>Admissão</th>
+            <th>Situação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let funcionario of funcionariosFiltrados">
+
+            <td class="nome-funcionario">
+              {{ funcionario.nome }}
+              <small>{{ funcionario.email }}</small>
+            </td>
+
+            <td>{{ funcionario.cpf }}</td>
+
+            <td>{{ funcionario.telefone }}</td>
+
+            <td>{{ funcionario.cargo }}</td>
+
+            <td>
+              {{ funcionario.admissao | date:'dd/MM/yyyy' }}
+            </td>
+
+            <td>
+              <span
+                class="situacao"
+                [ngClass]="funcionario.ativo ? 'ativo' : 'inativo'"
+              >
+                {{ funcionario.ativo ? 'Ativo' : 'Inativo' }}
+              </span>
+            </td>
+
+            <td class="acoes">
+
+              <button
+                class="btn-editar"
+                (click)="editarFuncionario(funcionario)"
+              >
+                Editar
+              </button>
+
+              <button
+                [class.btn-desativar]="funcionario.ativo"
+                [class.btn-ativar]="!funcionario.ativo"
+                (click)="alternarSituacao(funcionario)"
+              >
+                {{ funcionario.ativo ? 'Desativar' : 'Ativar' }}
+              </button>
+
+            </td>
+
+          </tr>
+
+          <tr *ngIf="funcionariosFiltrados.length === 0">
+            <td colspan="7" class="sem-resultados">
+              Nenhum funcionário encontrado.
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </section>
+
+  <!-- Modal de cadastro e edição -->
+  <div class="modal-fundo" *ngIf="modalAberto">
+
+    <div class="modal">
+
+      <div class="modal-cabecalho">
+        <div>
+          <h2>
+            {{ modoEdicao ? 'Editar funcionário' : 'Novo funcionário' }}
+          </h2>
+          <p>Preencha as informações do funcionário.</p>
+        </div>
+
+        <button class="fechar" (click)="fecharModal()">×</button>
+      </div>
+
+      <form (ngSubmit)="salvarFuncionario()">
+
+        <div class="campo">
+          <label>Nome completo *</label>
+          <input
+            type="text"
+            name="nome"
+            [(ngModel)]="funcionarioAtual.nome"
+            placeholder="Digite o nome completo"
+          >
+        </div>
+
+        <div class="campo">
+          <label>CPF *</label>
+          <input
+            type="text"
+            name="cpf"
+            [(ngModel)]="funcionarioAtual.cpf"
+            placeholder="000.000.000-00"
+          >
+        </div>
+
+        <div class="campo">
+          <label>Telefone *</label>
+          <input
+            type="text"
+            name="telefone"
+            [(ngModel)]="funcionarioAtual.telefone"
+            placeholder="(00) 00000-0000"
+          >
+        </div>
+
+        <div class="campo">
+          <label>E-mail *</label>
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="funcionarioAtual.email"
+            placeholder="email@exemplo.com"
+          >
+        </div>
+
+        <div class="campo">
+          <label>Cargo *</label>
+          <select
+            name="cargo"
+            [(ngModel)]="funcionarioAtual.cargo"
+          >
+            <option value="">Selecione um cargo</option>
+            <option value="Esteticista">Esteticista</option>
+            <option value="Recepcionista">Recepcionista</option>
+            <option value="Gerente">Gerente</option>
+            <option value="Auxiliar">Auxiliar</option>
+            <option value="Administrativo">Administrativo</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Data de admissão *</label>
+          <input
+            type="date"
+            name="admissao"
+            [(ngModel)]="funcionarioAtual.admissao"
+          >
+        </div>
+
+        <div class="campo">
+          <label>Situação</label>
+          <select
+            name="ativo"
+            [(ngModel)]="funcionarioAtual.ativo"
+          >
+            <option [ngValue]="true">Ativo</option>
+            <option [ngValue]="false">Inativo</option>
+          </select>
+        </div>
+
+        <p class="mensagem-erro" *ngIf="mensagem">
+          {{ mensagem }}
+        </p>
+
+        <div class="modal-acoes">
+
+          <button
+            type="button"
+            class="btn-cancelar"
+            (click)="fecharModal()"
+          >
+            Cancelar
+          </button>
+
+          <button type="submit" class="btn-salvar">
+            {{ modoEdicao ? 'Salvar alterações' : 'Cadastrar funcionário' }}
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,207 @@
+
+<div class="estoque-container">
+
+  <header class="pagina-cabecalho">
+    <div>
+      <h1>Gerenciamento de Estoque</h1>
+      <p>Controle os produtos e acompanhe as movimentações do estoque.</p>
+    </div>
+
+    <a routerLink="/admin/dashboard" class="btn-voltar">
+      ← Voltar ao painel
+    </a>
+  </header>
+
+  <!-- Indicadores -->
+  <section class="indicadores">
+
+    <div class="card-indicador">
+      <div class="icone roxo">📦</div>
+      <div>
+        <span>Total de produtos</span>
+        <h2>{{ totalProdutos }}</h2>
+      </div>
+    </div>
+
+    <div class="card-indicador">
+      <div class="icone amarelo">⚠️</div>
+      <div>
+        <span>Estoque baixo</span>
+        <h2>{{ estoqueBaixo }}</h2>
+      </div>
+    </div>
+
+    <div class="card-indicador">
+      <div class="icone vermelho">🚫</div>
+      <div>
+        <span>Produtos esgotados</span>
+        <h2>{{ esgotados }}</h2>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Pesquisa -->
+  <section class="estoque-conteudo">
+
+    <div class="conteudo-cabecalho">
+      <div>
+        <h2>Produtos cadastrados</h2>
+        <p>Consulte e atualize as quantidades disponíveis.</p>
+      </div>
+    </div>
+
+    <div class="filtros">
+
+      <div class="campo-pesquisa">
+        <span>🔎</span>
+        <input
+          type="text"
+          [(ngModel)]="pesquisa"
+          placeholder="Pesquisar produto, código ou categoria..."
+        >
+      </div>
+
+      <select [(ngModel)]="filtro">
+        <option value="todos">Todos os produtos</option>
+        <option value="disponivel">Disponíveis</option>
+        <option value="baixo">Estoque baixo</option>
+        <option value="esgotado">Esgotados</option>
+      </select>
+
+    </div>
+
+    <!-- Tabela -->
+    <div class="tabela-responsiva">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Código</th>
+            <th>Categoria</th>
+            <th>Quantidade</th>
+            <th>Estoque mínimo</th>
+            <th>Situação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let produto of produtosFiltrados">
+
+            <td class="nome-produto">
+              {{ produto.nome }}
+            </td>
+
+            <td>{{ produto.codigo }}</td>
+
+            <td>{{ produto.categoria }}</td>
+
+            <td class="quantidade">
+              {{ produto.quantidade }}
+            </td>
+
+            <td>{{ produto.minimo }}</td>
+
+            <td>
+              <span
+                class="situacao"
+                [ngClass]="{
+                  'disponivel': produto.quantidade > produto.minimo,
+                  'baixo': produto.quantidade > 0 &&
+                           produto.quantidade <= produto.minimo,
+                  'esgotado': produto.quantidade === 0
+                }"
+              >
+                {{ obterSituacao(produto) }}
+              </span>
+            </td>
+
+            <td class="acoes">
+              <button
+                class="btn-entrada"
+                (click)="abrirMovimentacao(produto, 'entrada')"
+                title="Registrar entrada"
+              >
+                + Entrada
+              </button>
+
+              <button
+                class="btn-saida"
+                (click)="abrirMovimentacao(produto, 'saida')"
+                title="Registrar saída"
+              >
+                - Saída
+              </button>
+            </td>
+
+          </tr>
+
+          <tr *ngIf="produtosFiltrados.length === 0">
+            <td colspan="7" class="sem-resultados">
+              Nenhum produto encontrado.
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </section>
+
+  <!-- Modal de movimentação -->
+  <div class="modal-fundo" *ngIf="modalAberto">
+
+    <div class="modal">
+
+      <h2>
+        {{ tipoMovimentacao === 'entrada'
+          ? 'Registrar entrada'
+          : 'Registrar saída' }}
+      </h2>
+
+      <p *ngIf="produtoSelecionado">
+        Produto: <strong>{{ produtoSelecionado.nome }}</strong>
+      </p>
+
+      <p *ngIf="produtoSelecionado">
+        Quantidade atual:
+        <strong>{{ produtoSelecionado.quantidade }}</strong>
+      </p>
+
+      <label>Quantidade</label>
+
+      <input
+        type="number"
+        min="1"
+        step="1"
+        [(ngModel)]="quantidadeMovimentacao"
+      >
+
+      <p class="mensagem-erro" *ngIf="mensagem">
+        {{ mensagem }}
+      </p>
+
+      <div class="modal-acoes">
+
+        <button class="btn-cancelar" (click)="fecharModal()">
+          Cancelar
+        </button>
+
+        <button
+          class="btn-confirmar"
+          (click)="confirmarMovimentacao()"
+        >
+          Confirmar
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

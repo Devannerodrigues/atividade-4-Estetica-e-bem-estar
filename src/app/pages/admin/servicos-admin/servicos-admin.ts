@@ -1,8 +1,10 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+
+import { ServicoService, ServicoApi } from '../../../services/servico';
 
 interface ServicoAdmin {
   id: number;
@@ -20,40 +22,24 @@ interface ServicoAdmin {
   templateUrl: './servicos-admin.html',
   styleUrl: './servicos-admin.css'
 })
-export class ServicosAdmin {
-  servicos: ServicoAdmin[] = [
-    {
-      id: 1,
-      nome: 'Limpeza de Pele',
-      descricao: 'Limpeza profunda para remover impurezas e cuidar da pele.',
-      duracao: 60,
-      preco: 80,
-      ativo: true
-    },
-    {
-      id: 2,
-      nome: 'Hidratação Facial',
-      descricao: 'Tratamento para hidratar e revitalizar a pele.',
-      duracao: 45,
-      preco: 65,
-      ativo: true
-    },
-    {
-      id: 3,
-      nome: 'Massagem Relaxante',
-      descricao: 'Massagem para promover relaxamento e bem-estar.',
-      duracao: 60,
-      preco: 100,
-      ativo: true
-    }
-  ];
+export class ServicosAdmin implements OnInit {
+
+  servicos: ServicoAdmin[] = [];
 
   formularioAberto = false;
   modoEdicao = false;
   mensagem = '';
-  proximoId = 4;
+
+  carregando = false;
+  salvando = false;
 
   servicoAtual: ServicoAdmin = this.novoServico();
+
+  constructor(private servicoService: ServicoService) {}
+
+  ngOnInit(): void {
+    this.carregarServicos();
+  }
 
   private novoServico(): ServicoAdmin {
     return {
@@ -64,6 +50,34 @@ export class ServicosAdmin {
       preco: 0,
       ativo: true
     };
+  }
+
+  carregarServicos(): void {
+    this.carregando = true;
+
+    this.servicoService.listar().subscribe({
+      next: (dados: ServicoApi[]) => {
+        this.servicos = dados.map(item => ({
+          id: item.id,
+          nome: item.nome,
+          descricao: item.descricao,
+          duracao: item.duracaoMinutos,
+          preco: item.preco,
+          ativo: item.ativo
+        }));
+
+        this.carregando = false;
+      },
+      error: (erro) => {
+        console.error('Erro ao carregar serviços:', erro);
+
+        this.mensagem =
+          erro.error?.mensagem ||
+          'Não foi possível carregar os serviços. Verifique a API.';
+
+        this.carregando = false;
+      }
+    });
   }
 
   abrirCadastro(): void {
@@ -83,34 +97,63 @@ export class ServicosAdmin {
   salvarServico(): void {
     if (
       !this.servicoAtual.nome.trim() ||
+      this.servicoAtual.nome.trim().length > 40 ||
       this.servicoAtual.duracao <= 0 ||
       this.servicoAtual.preco <= 0
     ) {
-      this.mensagem = 'Preencha o nome e informe duração e preço maiores que zero.';
+      this.mensagem =
+        'Informe nome com até 40 caracteres, duração e preço maiores que zero.';
       return;
     }
 
+    const dados = {
+      nome: this.servicoAtual.nome.trim(),
+      descricao: this.servicoAtual.descricao,
+      duracaoMinutos: this.servicoAtual.duracao,
+      preco: this.servicoAtual.preco,
+      ativo: this.servicoAtual.ativo
+    };
+
+    this.salvando = true;
+    this.mensagem = '';
+
     if (this.modoEdicao) {
-      const indice = this.servicos.findIndex(
-        servico => servico.id === this.servicoAtual.id
-      );
-
-      if (indice !== -1) {
-        this.servicos[indice] = { ...this.servicoAtual };
-      }
-
-      this.mensagem = 'Serviço atualizado com sucesso.';
+      this.servicoService
+        .atualizar(this.servicoAtual.id, dados)
+        .subscribe({
+          next: () => {
+            this.finalizarSalvamento('Serviço atualizado com sucesso!');
+          },
+          error: (erro) => this.tratarErro(erro)
+        });
     } else {
-      this.servicos.push({
-        ...this.servicoAtual,
-        id: this.proximoId++
+      this.servicoService.cadastrar(dados).subscribe({
+        next: () => {
+          this.finalizarSalvamento('Serviço cadastrado com sucesso!');
+        },
+        error: (erro) => this.tratarErro(erro)
       });
-
-      this.mensagem = 'Serviço cadastrado com sucesso.';
     }
+  }
 
+  private finalizarSalvamento(mensagem: string): void {
+    this.salvando = false;
     this.formularioAberto = false;
     this.servicoAtual = this.novoServico();
+    this.mensagem = mensagem;
+
+    this.carregarServicos();
+  }
+
+  private tratarErro(erro: any): void {
+    console.error('Erro ao salvar serviço:', erro);
+
+    this.salvando = false;
+
+    this.mensagem =
+      erro.error?.mensagem ||
+      erro.error?.title ||
+      'Erro ao salvar serviço. Confira a conexão com o Back-end.';
   }
 
   cancelar(): void {

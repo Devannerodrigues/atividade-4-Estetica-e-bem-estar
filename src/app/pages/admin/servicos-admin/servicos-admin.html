@@ -75,6 +75,10 @@
   <section class="formulario-servico" *ngIf="formularioAberto">
     <h2>{{ modoEdicao ? 'Editar serviço' : 'Cadastrar serviço' }}</h2>
 
+    <p *ngIf="carregando" class="mensagem">
+  Carregando serviços...
+</p>
+
     <form #formServico="ngForm" (ngSubmit)="salvarServico()">
       <div class="campo">
         <label for="nome">Nome do serviço *</label>
@@ -83,7 +87,7 @@
           name="nome"
           [(ngModel)]="servicoAtual.nome"
           required
-          maxlength="120"
+          maxlength="40"
         />
       </div>
 
@@ -141,6 +145,11 @@
         <button type="submit">
           {{ modoEdicao ? 'Salvar alterações' : 'Cadastrar serviço' }}
         </button>
+
+        <button type="submit" [disabled]="salvando">
+  {{ salvando ? 'Salvando...' :
+     (modoEdicao ? 'Salvar alterações' : 'Cadastrar serviço') }}
+</button>
 
         <button
           type="button"

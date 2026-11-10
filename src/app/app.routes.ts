@@ -9,6 +9,8 @@ import { Carrinho } from './pages/carrinho/carrinho';
 import { Cadastro } from './pages/cliente/cadastro/cadastro';
 import { Login as ClienteLogin } from './pages/cliente/login/login';
 import { AgendamentoComponent } from './pages/agendamento/agendamento';
+import { EstoqueAdmin } from './pages/admin/estoque-admin/estoque-admin';
+import { FuncionariosAdmin } from './pages/admin/funcionarios-admin/funcionarios-admin';
 
 import { Login } from './pages/admin/login/login';
 import { Dashboard } from './pages/admin/dashboard/dashboard';
@@ -32,6 +34,8 @@ export const routes: Routes = [
   { path: 'admin/dashboard', component: Dashboard },
   { path: 'admin/produtos', component: ProdutosAdmin },
   { path: 'admin/servicos', component: ServicosAdmin },
+  { path: 'admin/estoque', component: EstoqueAdmin },
+{ path: 'admin/funcionarios', component: FuncionariosAdmin },
 
   // Página não encontrada
   { path: '**', redirectTo: '' }
