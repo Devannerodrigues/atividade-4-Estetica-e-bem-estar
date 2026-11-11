@@ -15,6 +15,7 @@ import { Checkout } from './pages/checkout/checkout';
 import { Pedidos } from './pages/cliente/pedidos/pedidos';
 import { PedidosAdmin } from './pages/admin/pedidos-admin/pedidos-admin';
 import { ClientesAdmin } from './pages/admin/clientes-admin/clientes-admin';
+import { CategoriasAdmin } from './pages/admin/categorias-admin/categorias-admin';
 
 import { Login } from './pages/admin/login/login';
 import { Dashboard } from './pages/admin/dashboard/dashboard';
@@ -44,6 +45,7 @@ export const routes: Routes = [
 { path: 'admin/funcionarios', component: FuncionariosAdmin },
 { path: 'admin/pedidos', component: PedidosAdmin },
 { path: 'admin/clientes', component: ClientesAdmin },
+{path: 'admin/categorias',component: CategoriasAdmin},
 
 
   // Página não encontrada

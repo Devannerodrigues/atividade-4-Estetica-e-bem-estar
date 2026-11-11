@@ -1,0 +1,166 @@
+
+.admin-categorias {
+  padding: 30px;
+  max-width: 1100px;
+  margin: auto;
+  color: #493d43;
+}
+
+.pagina-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.pagina-topo h1 {
+  color: #a45b7a;
+  margin-bottom: 8px;
+}
+
+.pagina-topo p {
+  color: #777;
+}
+
+.btn-voltar,
+.btn-adicionar,
+.btn-salvar,
+.btn-cancelar,
+.btn-editar,
+.btn-excluir {
+  border: none;
+  padding: 11px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-voltar {
+  background: #eee;
+  color: #493d43;
+}
+
+.btn-adicionar,
+.btn-salvar {
+  background: #a45b7a;
+  color: white;
+}
+
+.btn-adicionar {
+  margin-bottom: 20px;
+}
+
+.formulario,
+.lista-categorias {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px #0000000d;
+  margin-bottom: 25px;
+}
+
+.formulario h2,
+.lista-categorias h2 {
+  color: #a45b7a;
+  margin-bottom: 20px;
+}
+
+.formulario label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.botoes-formulario {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-cancelar {
+  background: #eee;
+  color: #444;
+}
+
+.btn-editar {
+  background: #e5edf8;
+  color: #315d91;
+  margin-right: 6px;
+}
+
+.btn-excluir {
+  background: #f9e3e3;
+  color: #bd3c3c;
+}
+
+.btn-salvar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background: #faf3f6;
+  color: #a45b7a;
+}
+
+.mensagem {
+  padding: 12px;
+  border-radius: 7px;
+  margin-bottom: 15px;
+}
+
+.sucesso {
+  background: #e5f5e9;
+  color: #28783d;
+}
+
+.erro {
+  background: #fbe8e8;
+  color: #b52d2d;
+}
+
+.vazio {
+  color: #888;
+  padding: 15px 0;
+}
+
+@media (max-width: 650px) {
+  .admin-categorias {
+    padding: 15px;
+  }
+
+  .pagina-topo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lista-categorias {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 500px;
+  }
+}

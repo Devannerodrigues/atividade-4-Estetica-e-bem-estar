@@ -1,0 +1,127 @@
+
+<div class="admin-categorias">
+
+  <header class="pagina-topo">
+    <div>
+      <h1>Gerenciar Categorias</h1>
+      <p>Cadastre e organize as categorias dos produtos e serviços.</p>
+    </div>
+
+    <a routerLink="/admin/dashboard" class="btn-voltar">
+      Voltar ao painel
+    </a>
+  </header>
+
+  <div class="acoes">
+    <button class="btn-adicionar" (click)="abrirCadastro()">
+      + Nova Categoria
+    </button>
+  </div>
+
+  <div class="mensagem sucesso" *ngIf="mensagem">
+    {{ mensagem }}
+  </div>
+
+  <div class="mensagem erro" *ngIf="erro">
+    {{ erro }}
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <section class="formulario" *ngIf="formularioAberto">
+
+    <h2>
+      {{ modoEdicao ? 'Editar Categoria' : 'Cadastrar Categoria' }}
+    </h2>
+
+    <form (ngSubmit)="salvar()">
+
+      <label for="categoria">Nome da categoria</label>
+
+      <input
+        type="text"
+        id="categoria"
+        name="categoria"
+        [(ngModel)]="categoriaAtual.categoria"
+        placeholder="Digite o nome da categoria"
+        maxlength="40"
+        required
+      >
+
+      <div class="botoes-formulario">
+        <button
+          type="submit"
+          class="btn-salvar"
+          [disabled]="salvando"
+        >
+          {{ salvando ? 'Salvando...' : 'Salvar' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn-cancelar"
+          (click)="cancelar()"
+        >
+          Cancelar
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- LISTAGEM -->
+  <section class="lista-categorias">
+
+    <h2>Categorias cadastradas</h2>
+
+    <p *ngIf="carregando">Carregando categorias...</p>
+
+    <p
+      *ngIf="!carregando && categorias.length === 0"
+      class="vazio"
+    >
+      Nenhuma categoria cadastrada.
+    </p>
+
+    <table *ngIf="!carregando && categorias.length > 0">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Categoria</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let categoria of categorias">
+
+          <td>{{ categoria.idcategoria }}</td>
+
+          <td>{{ categoria.categoria }}</td>
+
+          <td class="acoes-tabela">
+
+            <button
+              class="btn-editar"
+              (click)="editar(categoria)"
+            >
+              Editar
+            </button>
+
+            <button
+              class="btn-excluir"
+              (click)="excluir(categoria)"
+            >
+              Excluir
+            </button>
+
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+  </section>
+
+</div>
