@@ -1,13 +1,16 @@
 
 <section class="produtos-container">
 
+  <!-- CABEÇALHO -->
   <header class="produtos-cabecalho">
     <h1>Nossos Produtos</h1>
+
     <p class="subtitulo">
       Cuide de você com nossos produtos especiais.
     </p>
   </header>
 
+  <!-- MENSAGENS -->
   <p *ngIf="carregando" class="mensagem">
     Carregando produtos...
   </p>
@@ -20,33 +23,144 @@
     {{ mensagem }}
   </p>
 
-  <div class="produtos-grid" *ngIf="!carregando && !erro">
+  <!-- PESQUISA E FILTROS -->
+  <div
+    class="filtros-produtos"
+    *ngIf="!carregando && !erro && !produtoSelecionado">
 
-    <article class="produto-card" *ngFor="let produto of produtos">
+    <input
+      type="text"
+      placeholder="Pesquisar produto pelo nome..."
+      [(ngModel)]="termoPesquisa">
+
+    <select [(ngModel)]="categoriaSelecionada">
+      <option value="">Todas as categorias</option>
+
+      <option
+        *ngFor="let categoria of categorias"
+        [value]="categoria.id">
+
+        {{ categoria.nome }}
+
+      </option>
+    </select>
+
+    <select [(ngModel)]="tipoSelecionado">
+      <option value="">Todos os tipos</option>
+
+      <option
+        *ngFor="let tipo of tiposDisponiveis"
+        [value]="tipo">
+
+        {{ tipo === 'P' ? 'Produto' : tipo === 'S' ? 'Serviço' : tipo }}
+
+      </option>
+    </select>
+
+    <button
+      type="button"
+      (click)="limparFiltros()">
+
+      Limpar filtros
+
+    </button>
+
+  </div>
+
+  <!-- DETALHES DO PRODUTO -->
+  <section
+    class="detalhes-produto"
+    *ngIf="produtoSelecionado && !carregando">
+
+    <button
+      type="button"
+      class="botao-voltar"
+      (click)="fecharDetalhes()">
+
+      ← Voltar para produtos
+
+    </button>
+
+    <div class="detalhes-conteudo">
+
+      <h2>{{ obterNome(produtoSelecionado) }}</h2>
+
+      <p>
+        {{ obterDescricao(produtoSelecionado) }}
+      </p>
+
+      <p>
+        <strong>Categoria:</strong>
+        {{ obterCategoriaNome(produtoSelecionado) }}
+      </p>
+
+      <p>
+        <strong>Unidade:</strong>
+        {{ obterUnidade(produtoSelecionado) }}
+      </p>
+
+      <p class="produto-preco">
+        {{ obterPreco(produtoSelecionado) | currency:'BRL':'symbol':'1.2-2' }}
+      </p>
+
+      <button
+        type="button"
+        (click)="adicionarAoCarrinho(produtoSelecionado)">
+
+        Adicionar ao carrinho
+
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- LISTAGEM DE PRODUTOS -->
+  <div
+    class="produtos-grid"
+    *ngIf="!carregando && !erro && !produtoSelecionado">
+
+    <article
+      class="produto-card"
+      *ngFor="let produto of produtosFiltrados">
 
       <div class="produto-info">
 
         <h2>
-          {{ produto.iditemNavigation?.item1 || produto.IditemNavigation?.Item1 || 'Produto sem nome' }}
+          {{ obterNome(produto) }}
         </h2>
 
         <p>
-          {{ produto.iditemNavigation?.descricaoItem || produto.IditemNavigation?.DescricaoItem || 'Sem descrição disponível.' }}
+          {{ obterDescricao(produto) }}
         </p>
 
         <span class="produto-unidade">
-          Unidade: {{ produto.unidade || produto.Unidade || 'UN' }}
+          Unidade: {{ obterUnidade(produto) }}
         </span>
 
         <p class="produto-preco">
-          {{ (produto.precoVenda ?? produto.PrecoVenda) | currency:'BRL':'symbol':'1.2-2' }}
+          {{ obterPreco(produto) | currency:'BRL':'symbol':'1.2-2' }}
         </p>
 
-        <button
-          type="button"
-          (click)="adicionarAoCarrinho(produto)">
-          Adicionar ao carrinho
-        </button>
+        <div class="produto-acoes">
+
+          <button
+            type="button"
+            (click)="verDetalhes(produto)">
+
+            Ver detalhes
+
+          </button>
+
+          <button
+            type="button"
+            (click)="adicionarAoCarrinho(produto)">
+
+            Adicionar ao carrinho
+
+          </button>
+
+        </div>
 
       </div>
 
@@ -54,10 +168,18 @@
 
   </div>
 
+  <!-- NENHUM RESULTADO -->
   <p
-    *ngIf="!carregando && !erro && produtos.length === 0"
+    *ngIf="
+      'carregando &&
+      erro &&
+      produtoSelecionado && 
+      produtosFiltrados.length === 0'
+    "
     class="mensagem">
-    Nenhum produto encontrado.
+
+    Nenhum produto encontrado com os filtros selecionados.
+
   </p>
 
 </section>

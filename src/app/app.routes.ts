@@ -11,6 +11,10 @@ import { Login as ClienteLogin } from './pages/cliente/login/login';
 import { AgendamentoComponent } from './pages/agendamento/agendamento';
 import { EstoqueAdmin } from './pages/admin/estoque-admin/estoque-admin';
 import { FuncionariosAdmin } from './pages/admin/funcionarios-admin/funcionarios-admin';
+import { Checkout } from './pages/checkout/checkout';
+import { Pedidos } from './pages/cliente/pedidos/pedidos';
+import { PedidosAdmin } from './pages/admin/pedidos-admin/pedidos-admin';
+import { ClientesAdmin } from './pages/admin/clientes-admin/clientes-admin';
 
 import { Login } from './pages/admin/login/login';
 import { Dashboard } from './pages/admin/dashboard/dashboard';
@@ -27,6 +31,8 @@ export const routes: Routes = [
   { path: 'cliente/cadastro', component: Cadastro },
 { path: 'cliente/login', component: ClienteLogin },
 { path: 'agendamento', component: AgendamentoComponent },
+{ path: 'checkout', component: Checkout},
+{ path: 'cliente/pedidos', component: Pedidos },
 
   // Área administrativa
   { path: 'admin', redirectTo: 'admin/login', pathMatch: 'full' },
@@ -36,6 +42,9 @@ export const routes: Routes = [
   { path: 'admin/servicos', component: ServicosAdmin },
   { path: 'admin/estoque', component: EstoqueAdmin },
 { path: 'admin/funcionarios', component: FuncionariosAdmin },
+{ path: 'admin/pedidos', component: PedidosAdmin },
+{ path: 'admin/clientes', component: ClientesAdmin },
+
 
   // Página não encontrada
   { path: '**', redirectTo: '' }

@@ -1,0 +1,224 @@
+
+<div class="checkout-container">
+
+  <header class="checkout-cabecalho">
+    <h1>Finalizar pedido</h1>
+    <a routerLink="/carrinho">Voltar ao carrinho</a>
+  </header>
+
+  <section *ngIf="pedidoConcluido" class="pedido-sucesso">
+    <h2>Pedido registrado com sucesso!</h2>
+
+    <p>Seu número de pedido é:</p>
+    <strong>{{ numeroPedido }}</strong>
+
+    <p>Os dados foram registrados nesta demonstração.</p>
+
+    <button type="button" (click)="voltarInicio()">
+      Voltar ao início
+    </button>
+  </section>
+
+  <ng-container *ngIf="!pedidoConcluido">
+
+    <p *ngIf="erro" class="mensagem-erro" role="alert">
+      {{ erro }}
+    </p>
+
+    <p *ngIf="itens.length === 0" class="carrinho-vazio">
+      Seu carrinho está vazio.
+      <a routerLink="/produtos">Ver produtos</a>
+    </p>
+
+    <form
+      *ngIf="itens.length > 0"
+      (ngSubmit)="finalizarPedido()"
+      #formCheckout="ngForm"
+    >
+
+      <section class="checkout-card">
+        <h2>1. Dados do cliente</h2>
+
+        <div class="campos-grid">
+          <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input
+              id="nome"
+              name="nome"
+              [(ngModel)]="nome"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              [(ngModel)]="email"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="telefone">Telefone</label>
+            <input
+              id="telefone"
+              name="telefone"
+              [(ngModel)]="telefone"
+              required
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="checkout-card" *ngIf="produtos.length > 0">
+        <h2>2. Endereço de entrega</h2>
+
+        <div class="campos-grid">
+
+          <div class="campo campo-completo">
+            <label for="endereco">Endereço</label>
+            <input
+              id="endereco"
+              name="endereco"
+              [(ngModel)]="endereco"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="numero">Número</label>
+            <input
+              id="numero"
+              name="numero"
+              [(ngModel)]="numero"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="complemento">Complemento</label>
+            <input
+              id="complemento"
+              name="complemento"
+              [(ngModel)]="complemento"
+            />
+          </div>
+
+          <div class="campo">
+            <label for="bairro">Bairro</label>
+            <input
+              id="bairro"
+              name="bairro"
+              [(ngModel)]="bairro"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="cidade">Cidade</label>
+            <input
+              id="cidade"
+              name="cidade"
+              [(ngModel)]="cidade"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="cep">CEP</label>
+            <input
+              id="cep"
+              name="cep"
+              [(ngModel)]="cep"
+              required
+            />
+          </div>
+
+        </div>
+      </section>
+
+      <section class="checkout-card" *ngIf="produtos.length > 0">
+        <h2>3. Pagamento dos produtos</h2>
+
+        <p>Escolha como deseja pagar pelos produtos:</p>
+
+        <label class="opcao-pagamento">
+          <input
+            type="radio"
+            name="formaPagamento"
+            value="pix"
+            [(ngModel)]="formaPagamento"
+          />
+          PIX
+        </label>
+
+        <label class="opcao-pagamento">
+          <input
+            type="radio"
+            name="formaPagamento"
+            value="cartao"
+            [(ngModel)]="formaPagamento"
+          />
+          Cartão de crédito
+        </label>
+      </section>
+
+      <section class="checkout-card" *ngIf="servicos.length > 0">
+        <h2>Pagamento dos serviços</h2>
+
+        <p>
+          Os serviços serão pagos presencialmente na clínica,
+          conforme os requisitos do projeto.
+        </p>
+      </section>
+
+      <section class="checkout-card resumo-pedido">
+        <h2>4. Resumo do pedido</h2>
+
+        <div *ngFor="let item of itens" class="resumo-item">
+          <span>
+            {{ item.nome }} ({{ item.quantidade }}x)
+            <small>
+              {{ item.tipo === 'servico' ? 'Serviço' : 'Produto' }}
+            </small>
+          </span>
+
+          <strong>
+            {{ item.preco * item.quantidade |
+              currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+        </div>
+
+        <hr />
+
+        <p *ngIf="produtos.length > 0">
+          Produtos:
+          <strong>
+            {{ totalProdutos | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+        </p>
+
+        <p *ngIf="servicos.length > 0">
+          Serviços:
+          <strong>
+            {{ totalServicos | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+        </p>
+
+        <h3>
+          Total:
+          {{ totalGeral | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </h3>
+
+        <button type="submit" class="botao-finalizar">
+          Confirmar pedido
+        </button>
+      </section>
+
+    </form>
+  </ng-container>
+
+</div>

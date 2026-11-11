@@ -1,0 +1,144 @@
+
+<div class="admin-pedidos-container">
+
+  <header class="pagina-cabecalho">
+    <div>
+      <h1>Gerenciar pedidos</h1>
+      <p>Consulte as compras e atualize o andamento dos pedidos.</p>
+    </div>
+
+    <a routerLink="/admin/dashboard" class="botao-voltar">
+      Voltar ao painel
+    </a>
+  </header>
+
+  <div class="mensagem" *ngIf="mensagem">
+    {{ mensagem }}
+  </div>
+
+  <section class="filtros">
+    <label for="filtroStatus">Filtrar por status:</label>
+
+    <select id="filtroStatus" [(ngModel)]="filtroStatus">
+      <option value="Todos">Todos os pedidos</option>
+      <option *ngFor="let status of statusDisponiveis" [value]="status">
+        {{ status }}
+      </option>
+    </select>
+  </section>
+
+  <div class="resumo">
+    <strong>Total de pedidos: {{ pedidos.length }}</strong>
+    <strong>Exibidos: {{ pedidosFiltrados.length }}</strong>
+  </div>
+
+  <div class="sem-pedidos" *ngIf="pedidosFiltrados.length === 0">
+    <h2>Nenhum pedido encontrado</h2>
+    <p>Os pedidos realizados aparecerão nesta tela.</p>
+  </div>
+
+  <section class="lista-pedidos">
+    <article class="pedido-card" *ngFor="let pedido of pedidosFiltrados">
+
+      <div class="pedido-cabecalho">
+        <div>
+          <h2>Pedido #{{ pedido.id }}</h2>
+          <p>
+            {{ pedido.data | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+
+        <span class="status">
+          {{ pedido.status }}
+        </span>
+      </div>
+
+      <div class="dados-cliente">
+        <p><strong>Cliente:</strong> {{ pedido.cliente?.nome }}</p>
+        <p><strong>E-mail:</strong> {{ pedido.cliente?.email }}</p>
+        <p><strong>Telefone:</strong> {{ pedido.cliente?.telefone }}</p>
+        <p>
+          <strong>Pagamento:</strong>
+          {{ obterFormaPagamento(pedido) }}
+        </p>
+        <p class="total">
+          {{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}
+        </p>
+      </div>
+
+      <div class="acoes-pedido">
+        <button
+          type="button"
+          class="botao-detalhes"
+          (click)="alternarDetalhes(pedido.id)">
+          {{ pedidoExpandido === pedido.id
+            ? 'Ocultar detalhes'
+            : 'Ver detalhes' }}
+        </button>
+
+        <label>
+          Atualizar status:
+          <select
+            [ngModel]="pedido.status"
+            (ngModelChange)="alterarStatus(pedido, $event)">
+            <option *ngFor="let status of statusDisponiveis"
+                    [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <div class="detalhes" *ngIf="pedidoExpandido === pedido.id">
+        <h3>Itens do pedido</h3>
+
+        <div class="item" *ngFor="let item of pedido.itens">
+          <div>
+            <strong>{{ item.nome }}</strong>
+            <small>
+              {{ item.tipo === 'servico' ? 'Serviço' : 'Produto' }}
+              — Quantidade: {{ item.quantidade }}
+            </small>
+          </div>
+
+          <span>
+            {{ item.preco * item.quantidade
+              | currency:'BRL':'symbol':'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="totais">
+          <p>
+            Produtos:
+            {{ pedido.totalProdutos
+              | currency:'BRL':'symbol':'1.2-2' }}
+          </p>
+          <p>
+            Serviços:
+            {{ pedido.totalServicos
+              | currency:'BRL':'symbol':'1.2-2' }}
+          </p>
+          <strong>
+            Total:
+            {{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}
+          </strong>
+        </div>
+
+        <div *ngIf="pedido.totalProdutos > 0">
+          <h3>Endereço de entrega</h3>
+          <p>
+            {{ pedido.endereco?.endereco }},
+            {{ pedido.endereco?.numero }}
+            {{ pedido.endereco?.complemento }}
+          </p>
+          <p>
+            {{ pedido.endereco?.bairro }} -
+            {{ pedido.endereco?.cidade }}
+          </p>
+          <p>CEP: {{ pedido.endereco?.cep }}</p>
+        </div>
+      </div>
+
+    </article>
+  </section>
+</div>

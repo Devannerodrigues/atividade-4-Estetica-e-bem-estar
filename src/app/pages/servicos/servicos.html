@@ -1,17 +1,99 @@
 
 <section class="servicos-container">
 
-  <h1>Nossos Serviços</h1>
+  <!-- CABEÇALHO -->
+  <header class="servicos-cabecalho">
+    <h1>Nossos Serviços</h1>
 
-  <p class="subtitulo">
-    Momentos de cuidado, beleza e bem-estar para você.
+    <p class="subtitulo">
+      Momentos de cuidado, beleza e bem-estar para você.
+    </p>
+  </header>
+
+  <!-- MENSAGEM -->
+  <p *ngIf="mensagem" class="mensagem sucesso">
+    {{ mensagem }}
   </p>
 
-  <div class="lista-servicos">
+  <!-- PESQUISA E FILTROS -->
+  <div
+    class="filtros-servicos"
+    *ngIf="!servicoSelecionado">
+
+    <input
+      type="text"
+      placeholder="Pesquisar serviço..."
+      [(ngModel)]="termoPesquisa">
+
+    <select [(ngModel)]="categoriaSelecionada">
+      <option value="">Todas as categorias</option>
+
+      <option
+        *ngFor="let categoria of categorias"
+        [value]="categoria">
+
+        {{ categoria }}
+
+      </option>
+    </select>
+
+    <button
+      type="button"
+      (click)="limparFiltros()">
+
+      Limpar filtros
+
+    </button>
+
+  </div>
+
+  <!-- DETALHES DO SERVIÇO -->
+  <section
+    class="detalhes-servico"
+    *ngIf="servicoSelecionado">
+
+    <button
+      type="button"
+      class="botao-voltar"
+      (click)="fecharDetalhes()">
+
+      ← Voltar para serviços
+
+    </button>
+
+    <div class="servico-icone">✿</div>
+
+    <h2>{{ servicoSelecionado.nome }}</h2>
+
+    <p>{{ servicoSelecionado.descricao }}</p>
+
+    <p>
+      <strong>Categoria:</strong>
+      {{ servicoSelecionado.categoria }}
+    </p>
+
+    <p class="preco">
+      {{ servicoSelecionado.preco | currency:'BRL':'symbol':'1.2-2' }}
+    </p>
+
+    <button
+      type="button"
+      (click)="adicionarAoCarrinho(servicoSelecionado)">
+
+      Adicionar ao carrinho
+
+    </button>
+
+  </section>
+
+  <!-- LISTAGEM DE SERVIÇOS -->
+  <div
+    class="lista-servicos"
+    *ngIf="!servicoSelecionado">
 
     <article
       class="servico-card"
-      *ngFor="let servico of servicos">
+      *ngFor="let servico of servicosFiltrados">
 
       <div class="servico-icone">✿</div>
 
@@ -19,12 +101,45 @@
 
       <p>{{ servico.descricao }}</p>
 
+      <span class="categoria-servico">
+        {{ servico.categoria }}
+      </span>
+
       <p class="preco">
         {{ servico.preco | currency:'BRL':'symbol':'1.2-2' }}
       </p>
 
+      <div class="servico-acoes">
+
+        <button
+          type="button"
+          (click)="verDetalhes(servico)">
+
+          Ver detalhes
+
+        </button>
+
+        <button
+          type="button"
+          (click)="adicionarAoCarrinho(servico)">
+
+          Adicionar ao carrinho
+
+        </button>
+
+      </div>
+
     </article>
 
   </div>
+
+  <!-- NENHUM RESULTADO -->
+  <p
+    *ngIf="!servicoSelecionado && servicosFiltrados.length === 0"
+    class="mensagem">
+
+    Nenhum serviço encontrado.
+
+  </p>
 
 </section>

@@ -1,0 +1,159 @@
+
+.historico-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.historico-cabecalho {
+  margin-bottom: 30px;
+}
+
+.historico-cabecalho h1 {
+  color: #8b4772;
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.historico-cabecalho p {
+  color: #777;
+}
+
+.pedido-card {
+  background: #fff;
+  border: 1px solid #eadce5;
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.pedido-topo,
+.pedido-resumo,
+.item-pedido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.pedido-topo h2 {
+  color: #71385f;
+  margin: 0 0 6px;
+}
+
+.pedido-topo p,
+.pedido-resumo p {
+  color: #666;
+}
+
+.status-pedido {
+  background: #fff0d6;
+  color: #946300;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.valor-pedido {
+  color: #8b4772 !important;
+  font-weight: bold;
+  font-size: 19px;
+}
+
+.botao-detalhes,
+.botao-atualizar,
+.botao {
+  display: inline-block;
+  border: none;
+  background: #8b4772;
+  color: white;
+  padding: 11px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.botao-detalhes:hover,
+.botao-atualizar:hover,
+.botao:hover {
+  background: #71385f;
+}
+
+.pedido-detalhes {
+  border-top: 1px solid #eadce5;
+  margin-top: 20px;
+  padding-top: 15px;
+}
+
+.pedido-detalhes h3 {
+  color: #71385f;
+  margin: 15px 0;
+}
+
+.item-pedido {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item-pedido div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.item-pedido small {
+  color: #777;
+}
+
+.detalhe-total {
+  text-align: right;
+  margin-top: 15px;
+}
+
+.detalhe-total strong {
+  color: #8b4772;
+  font-size: 18px;
+}
+
+.sem-pedidos,
+.mensagem-erro {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.mensagem-erro {
+  color: #b42318;
+}
+
+.acoes-historico {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.link-voltar {
+  color: #8b4772;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .pedido-topo,
+  .pedido-resumo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .item-pedido {
+    align-items: flex-start;
+  }
+
+  .acoes-historico {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

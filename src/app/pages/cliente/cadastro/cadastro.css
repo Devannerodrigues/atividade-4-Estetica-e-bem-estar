@@ -1,6 +1,6 @@
 
 .formulario-container {
-  max-width: 480px;
+  max-width: 520px;
   margin: 40px auto;
   padding: 20px;
 }
@@ -10,11 +10,19 @@
   background: #fff;
   border: 1px solid #e8e0ef;
   border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(80, 45, 121, 0.08);
 }
 
 .formulario-card h1 {
   color: #502d79;
   margin-top: 0;
+  text-align: center;
+}
+
+.subtitulo {
+  color: #777;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 .campo {
@@ -24,34 +32,76 @@
   margin: 18px 0;
 }
 
+.campo label {
+  color: #502d79;
+  font-weight: 600;
+}
+
 .campo input {
-  padding: 11px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo input:focus {
+  border-color: #75458f;
+  box-shadow: 0 0 0 3px rgba(117, 69, 143, 0.12);
 }
 
 .botao-principal {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
+  margin-top: 10px;
   border: none;
   border-radius: 6px;
   background: #502d79;
   color: white;
   font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.botao-principal:hover {
+  background: #75458f;
 }
 
 .mensagem-erro {
+  padding: 10px;
   color: #b42318;
+  background: #fff0ef;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 .link-conta {
   text-align: center;
   margin-top: 20px;
+  color: #555;
 }
 
 .link-conta a {
   color: #502d79;
   font-weight: bold;
+  text-decoration: none;
+}
+
+.link-conta a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .formulario-container {
+    margin: 20px auto;
+    padding: 12px;
+  }
+
+  .formulario-card {
+    padding: 22px;
+  }
 }

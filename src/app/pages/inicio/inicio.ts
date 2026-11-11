@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [RouterLink],
+  imports:  [CommonModule, RouterLink],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css'
 })

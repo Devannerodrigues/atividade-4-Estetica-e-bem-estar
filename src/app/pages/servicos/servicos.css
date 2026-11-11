@@ -71,3 +71,47 @@
     padding: 30px 16px;
   }
 }
+.filtros-servicos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.filtros-servicos input,
+.filtros-servicos select {
+  flex: 1;
+  min-width: 180px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.detalhes-servico {
+  background: #fff;
+  padding: 25px;
+  margin: 25px auto;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.detalhes-servico h2 {
+  color: #75458f;
+}
+
+.botao-voltar {
+  margin-bottom: 20px;
+}
+
+.categoria-servico {
+  display: inline-block;
+  margin: 8px 0;
+  color: #75458f;
+  font-size: 14px;
+}
+
+.servico-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

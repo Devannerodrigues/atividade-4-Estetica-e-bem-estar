@@ -1,0 +1,132 @@
+
+<main class="historico-container">
+  <section class="historico-cabecalho">
+    <h1>Meus pedidos</h1>
+    <p>Acompanhe suas compras e consulte os detalhes.</p>
+  </section>
+
+  <div class="mensagem-erro" *ngIf="erro">
+    {{ erro }}
+    <p *ngIf="!emailCliente">
+      <a routerLink="/cliente/login">Entrar na minha conta</a>
+    </p>
+  </div>
+
+  <div class="sem-pedidos" *ngIf="!erro && pedidos.length === 0">
+    <h2>Você ainda não realizou pedidos.</h2>
+    <p>Quando fizer uma compra, ela aparecerá aqui.</p>
+    <a routerLink="/produtos" class="botao">Ver produtos</a>
+  </div>
+
+  <section class="lista-pedidos" *ngIf="pedidos.length > 0">
+    <article class="pedido-card" *ngFor="let pedido of pedidos">
+      <div class="pedido-topo">
+        <div>
+          <h2>Pedido #{{ pedido.id }}</h2>
+          <p>
+            Realizado em
+            {{ pedido.data | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+
+        <span class="status-pedido">
+          {{ pedido.status }}
+        </span>
+      </div>
+
+      <div class="pedido-resumo">
+        <p>
+          <strong>Itens:</strong>
+          {{ pedido.itens?.length || 0 }}
+        </p>
+
+        <p>
+          <strong>Pagamento:</strong>
+          {{ obterFormaPagamento(pedido) }}
+        </p>
+
+        <p class="valor-pedido">
+          {{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="botao-detalhes"
+        (click)="alternarDetalhes(pedido.id)">
+        {{ pedidoExpandido === pedido.id
+          ? 'Ocultar detalhes'
+          : 'Ver detalhes' }}
+      </button>
+
+      <div class="pedido-detalhes"
+           *ngIf="pedidoExpandido === pedido.id">
+
+        <h3>Itens do pedido</h3>
+
+        <div class="item-pedido" *ngFor="let item of pedido.itens">
+          <div>
+            <strong>{{ item.nome }}</strong>
+            <small>
+              {{ item.tipo === 'servico' ? 'Serviço' : 'Produto' }}
+              — Quantidade: {{ item.quantidade }}
+            </small>
+          </div>
+
+          <span>
+            {{ item.preco * item.quantidade
+              | currency:'BRL':'symbol':'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="detalhe-total">
+          <p>
+            Produtos:
+            {{ pedido.totalProdutos
+              | currency:'BRL':'symbol':'1.2-2' }}
+          </p>
+
+          <p>
+            Serviços:
+            {{ pedido.totalServicos
+              | currency:'BRL':'symbol':'1.2-2' }}
+          </p>
+
+          <strong>
+            Total:
+            {{ pedido.total | currency:'BRL':'symbol':'1.2-2' }}
+          </strong>
+        </div>
+
+        <div *ngIf="pedido.totalProdutos > 0">
+          <h3>Endereço de entrega</h3>
+          <p>
+            {{ pedido.endereco?.endereco }},
+            {{ pedido.endereco?.numero }}
+            {{ pedido.endereco?.complemento }}
+          </p>
+          <p>
+            {{ pedido.endereco?.bairro }} -
+            {{ pedido.endereco?.cidade }}
+          </p>
+          <p>CEP: {{ pedido.endereco?.cep }}</p>
+        </div>
+
+        <p *ngIf="pedido.totalServicos > 0">
+          <strong>Pagamento dos serviços:</strong>
+          {{ pedido.pagamentoServicos }}
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <div class="acoes-historico">
+    <button type="button"
+            class="botao-atualizar"
+            (click)="atualizarHistorico()">
+      Atualizar histórico
+    </button>
+
+    <a routerLink="/" class="link-voltar">Voltar ao início</a>
+  </div>
+</main>

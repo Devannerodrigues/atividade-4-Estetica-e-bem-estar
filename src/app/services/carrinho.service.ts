@@ -7,6 +7,7 @@ export interface ItemCarrinho {
   nome: string;
   preco: number;
   quantidade: number;
+  tipo?: 'produto' | 'servico';
 }
 
 @Injectable({
@@ -18,7 +19,15 @@ export class CarrinhoService {
   private carregarItens(): ItemCarrinho[] {
     try {
       const dados = localStorage.getItem(this.chave);
-      return dados ? JSON.parse(dados) : [];
+
+      if (!dados) return [];
+
+      const itens: ItemCarrinho[] = JSON.parse(dados);
+
+      return itens.map(item => ({
+        ...item,
+        tipo: item.tipo || 'produto'
+      }));
     } catch {
       return [];
     }
@@ -36,7 +45,7 @@ export class CarrinhoService {
     try {
       localStorage.setItem(this.chave, JSON.stringify(itens));
     } catch {
-      // O carrinho continua funcionando enquanto a página estiver aberta.
+      console.error('Não foi possível salvar o carrinho.');
     }
   }
 
@@ -44,25 +53,45 @@ export class CarrinhoService {
     return this.itensSubject.value;
   }
 
-  adicionar(produto: Omit<ItemCarrinho, 'quantidade'>): void {
+  adicionar(
+    item: Omit<ItemCarrinho, 'quantidade'>
+  ): void {
+    const tipo = item.tipo || 'produto';
+
     const itens = [...this.obterItens()];
-    const existente = itens.find(item => item.id === produto.id);
+
+    const existente = itens.find(
+      atual =>
+        atual.id === item.id &&
+        atual.tipo === tipo
+    );
 
     if (existente) {
       existente.quantidade++;
     } else {
-      itens.push({ ...produto, quantidade: 1 });
+      itens.push({
+        ...item,
+        tipo,
+        quantidade: 1
+      });
     }
 
     this.atualizar(itens);
   }
 
-  alterarQuantidade(id: number | string, quantidade: number): void {
+  alterarQuantidade(
+    id: number | string,
+    quantidade: number,
+    tipo?: 'produto' | 'servico'
+  ): void {
     const itens = this.obterItens().map(item =>
-      item.id === id
+      item.id === id && (!tipo || item.tipo === tipo)
         ? {
             ...item,
-            quantidade: Math.max(1, Math.floor(Number(quantidade) || 1))
+            quantidade: Math.max(
+              1,
+              Math.floor(Number(quantidade) || 1)
+            )
           }
         : item
     );
@@ -70,9 +99,16 @@ export class CarrinhoService {
     this.atualizar(itens);
   }
 
-  remover(id: number | string): void {
+  remover(
+    id: number | string,
+    tipo?: 'produto' | 'servico'
+  ): void {
     this.atualizar(
-      this.obterItens().filter(item => item.id !== id)
+      this.obterItens().filter(
+        item =>
+          item.id !== id ||
+          (tipo && item.tipo !== tipo)
+      )
     );
   }
 
@@ -89,7 +125,8 @@ export class CarrinhoService {
 
   valorTotal(): number {
     return this.obterItens().reduce(
-      (total, item) => total + item.preco * item.quantidade,
+      (total, item) =>
+        total + item.preco * item.quantidade,
       0
     );
   }

@@ -1,0 +1,143 @@
+
+.checkout-container {
+  max-width: 950px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.checkout-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.checkout-cabecalho h1,
+.checkout-card h2 {
+  color: #502d79;
+}
+
+.checkout-cabecalho a {
+  color: #502d79;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.checkout-card {
+  background: white;
+  border: 1px solid #e8e0ef;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.campos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.campo-completo {
+  grid-column: 1 / -1;
+}
+
+.campo input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.opcao-pagamento {
+  display: block;
+  margin: 15px 0;
+}
+
+.opcao-pagamento input {
+  margin-right: 8px;
+}
+
+.resumo-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.resumo-item small {
+  display: block;
+  color: #777;
+}
+
+.resumo-pedido h3 {
+  color: #502d79;
+  text-align: right;
+  margin-top: 25px;
+}
+
+.botao-finalizar,
+.pedido-sucesso button {
+  width: 100%;
+  padding: 14px;
+  background: #502d79;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mensagem-erro {
+  background: #fff0f0;
+  color: #b42318;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.carrinho-vazio {
+  text-align: center;
+  padding: 35px;
+}
+
+.pedido-sucesso {
+  background: white;
+  border: 1px solid #d8c9e8;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+}
+
+.pedido-sucesso h2 {
+  color: #502d79;
+}
+
+.pedido-sucesso strong {
+  display: block;
+  font-size: 22px;
+  margin: 15px;
+}
+
+@media (max-width: 600px) {
+  .campos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-cabecalho {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .checkout-card {
+    padding: 18px;
+  }
+}

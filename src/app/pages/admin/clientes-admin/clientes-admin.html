@@ -1,0 +1,136 @@
+
+<div class="clientes-admin">
+
+  <header class="pagina-topo">
+    <div>
+      <h1>Gerenciar clientes</h1>
+      <p>Consulte os clientes cadastrados e seus pedidos.</p>
+    </div>
+
+    <a routerLink="/admin/dashboard" class="botao-voltar">
+      Voltar ao painel
+    </a>
+  </header>
+
+  <section class="resumo-clientes">
+    <div class="resumo-card">
+      <span>Total de clientes</span>
+      <strong>{{ clientes.length }}</strong>
+    </div>
+
+    <div class="resumo-card">
+      <span>Clientes encontrados</span>
+      <strong>{{ clientesFiltrados.length }}</strong>
+    </div>
+  </section>
+
+  <section class="lista-clientes">
+
+    <div class="lista-topo">
+      <h2>Clientes cadastrados</h2>
+
+      <input
+        type="text"
+        [(ngModel)]="pesquisa"
+        placeholder="Pesquisar por nome, e-mail ou CPF..."
+      >
+    </div>
+
+    <div *ngIf="clientesFiltrados.length === 0" class="mensagem-vazia">
+      <p>Nenhum cliente encontrado.</p>
+    </div>
+
+    <div class="tabela-responsiva" *ngIf="clientesFiltrados.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Telefone</th>
+            <th>CPF</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let cliente of clientesFiltrados">
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.telefone }}</td>
+            <td>{{ formatarCPF(cliente.cpf) }}</td>
+            <td>
+              <button
+                class="botao-detalhes"
+                (click)="selecionarCliente(cliente)"
+              >
+                Ver detalhes
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <section class="detalhes-cliente" *ngIf="clienteSelecionado">
+
+    <div class="detalhes-topo">
+      <h2>Dados do cliente</h2>
+
+      <button class="botao-fechar" (click)="fecharDetalhes()">
+        Fechar
+      </button>
+    </div>
+
+    <div class="dados-cliente">
+      <p><strong>Nome:</strong> {{ clienteSelecionado.nome }}</p>
+      <p><strong>CPF:</strong> {{ clienteSelecionado.cpf }}</p>
+      <p><strong>E-mail:</strong> {{ clienteSelecionado.email }}</p>
+      <p><strong>Telefone:</strong> {{ clienteSelecionado.telefone }}</p>
+      <p><strong>Endereço:</strong> {{ clienteSelecionado.endereco }}</p>
+    </div>
+
+    <div class="resumo-pedidos">
+      <div>
+        <span>Quantidade de pedidos</span>
+        <strong>{{ pedidosDoCliente.length }}</strong>
+      </div>
+
+      <div>
+        <span>Total em pedidos</span>
+        <strong>{{ totalGasto | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+      </div>
+    </div>
+
+    <h3>Histórico de pedidos</h3>
+
+    <div *ngIf="pedidosDoCliente.length === 0" class="mensagem-vazia">
+      Este cliente ainda não possui pedidos.
+    </div>
+
+    <div class="pedido-card" *ngFor="let pedido of pedidosDoCliente">
+      <div>
+        <strong>Pedido #{{ pedido.id }}</strong>
+        <span>{{ pedido.data | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+      <p>
+        <strong>Status:</strong> {{ pedido.status }}
+      </p>
+
+      <p>
+        <strong>Valor:</strong>
+        {{ pedido.total | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </p>
+
+      <ul>
+        <li *ngFor="let item of pedido.itens">
+          {{ item.nome }} — {{ item.quantidade }} unidade(s)
+        </li>
+      </ul>
+    </div>
+
+  </section>
+
+</div>
